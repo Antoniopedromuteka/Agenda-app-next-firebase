@@ -72,6 +72,10 @@
     box-sizing: content-box;
 
 
+    & + div {
+        margin-top: 1rem;
+    }
+
     .titleName{
         font-size: 1.5rem;
         text-align: left;

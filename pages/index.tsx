@@ -3,7 +3,17 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.scss'
 import { database } from '../services/firebase';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
+import { type } from 'os';
+
+
+type contatos ={
+  nome: string;
+  email: string;
+  telefone: string;
+  observacoes: string
+}
+
 
 const Home: NextPage = () => {
 
@@ -11,6 +21,10 @@ const Home: NextPage = () => {
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
   const [observacoes, setObservacoes] = useState('');
+
+
+  const [contato, setContato] = useState<contatos[]>();
+  
 
 
   function gravar(event: FormEvent){
@@ -26,7 +40,40 @@ const Home: NextPage = () => {
     }
 
     ref.push(dados);
+
+
+    setNome('');
+    setEmail('');
+    setTelefone('');
+    setObservacoes('');
   }
+
+  useEffect(() =>{
+
+    const refContatos = database.ref('contatos');
+
+
+    refContatos.on('value', resultado =>{
+
+
+     
+      const resultadoContatos = Object.entries<contatos>(resultado.val() ?? {})
+      .map(([chave, valor]) =>{
+        return{
+          'chave': chave,
+          'nome': valor.nome,
+          'email': valor.email,
+          'telefone': valor.telefone,
+          'observacoes': valor.observacoes
+
+        }
+      })
+
+      setContato(resultadoContatos)
+      
+    }) 
+
+  }, []);
 
 
   return (
@@ -36,22 +83,26 @@ const Home: NextPage = () => {
         <input
            type="text" 
            placeholder='Nome'
+           value={nome}
            onChange={event => setNome(event.target.value)}
         />
 
         <input 
             type="email"  
-            placeholder='Email' 
+            placeholder='Email'
+            value={email}
             onChange={event => setEmail(event.target.value)}
         />
 
         <input 
             type="tel" 
             placeholder='Telefone'
+            value={telefone}
             onChange={event => setTelefone(event.target.value)} 
         />
         <textarea 
             placeholder="Observacao"
+            value={observacoes}
             onChange={event => setObservacoes(event.target.value)}
             >
               
@@ -66,23 +117,26 @@ const Home: NextPage = () => {
 
       <div className={styles.contactBox}>
         <input type="text" placeholder='Buscar' />
-        <div className={styles.CardBox}>
-          <div className={styles.BoxTitle}>
-          <p className={styles.titleName}>Carla Gomes Farias</p>
-          <div className={styles.extras}>
-            <a href="#">Editar</a>
-            <a href="#">Excluir</a>
+     
+              {contato?.map((contato) =>(
+                  <div className={styles.CardBox}>
+                   <div className={styles.BoxTitle}>
+                    <p className={styles.titleName}>{contato.nome}</p>
+                    <div className={styles.extras}>
+                      <a href="#">Editar</a>
+                      <a href="#">Excluir</a>
 
-          </div>
-          </div>
+                    </div>
+                   </div>
 
-          <div className={styles.datas}>
-          <p>Carla@gmail.com</p>
-          <p>+244 923641906</p>
-          <p>Amiga da Escola de Natação</p>
-          </div>
+                    <div className={styles.datas}>
+                    <p>{contato.email}</p>
+                    <p>{contato.telefone}</p>
+                    <p>{contato.observacoes}</p>
+                    </div>
 
-        </div>
+                  </div>
+               ))}
       </div>
     </main>
     </>
