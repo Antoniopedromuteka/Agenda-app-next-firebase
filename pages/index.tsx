@@ -29,7 +29,9 @@ const Home: NextPage = () => {
   const [busca, setBusca] = useState<contatos[]>();
 
   const [estabuscando, setEstabuscando] = useState(false);
+  const [chave, setChave] = useState('');
 
+  const [atualizando, setAtualizando] = useState(false)
 
   function gravar(event: FormEvent){
 
@@ -45,7 +47,11 @@ const Home: NextPage = () => {
 
     ref.push(dados);
 
+    limpa();
+    
+  }
 
+  function limpa(){
     setNome('');
     setEmail('');
     setTelefone('');
@@ -57,6 +63,7 @@ const Home: NextPage = () => {
   }
 
   function buscar(event: FormEvent){
+
 
     const palavra = event.target.value;
 
@@ -81,6 +88,42 @@ const Home: NextPage = () => {
     setEstabuscando(false);
   }
   }
+
+  function editarDados(contato: contatos){
+
+    setAtualizando(true);
+
+    setChave(contato.chave);
+
+    
+
+    setNome(contato.nome);
+    setEmail(contato.email);
+    setTelefone(contato.telefone);
+    setObservacoes(contato.observacoes);
+
+
+  }
+
+  function atualizarContato(){
+    const ref = database.ref("contatos/");
+
+    const dados = {
+       'nome' : nome,
+       'email' : email,
+       'telfone': telefone,
+       'observacoes': observacoes
+
+    }
+
+    ref.child(chave).update(dados);
+
+    limpa();
+
+    setAtualizando(false);
+
+  }
+
   useEffect(() =>{
 
     const refContatos = database.ref('contatos');
@@ -112,7 +155,7 @@ const Home: NextPage = () => {
   return (
     <>
     <main className={styles.container}>
-      <form onSubmit={gravar}>
+      <form>
         <input
            type="text" 
            placeholder='Nome'
@@ -141,11 +184,28 @@ const Home: NextPage = () => {
               
         </textarea>
 
+      { atualizando ? 
         <button 
-            type="submit"
+            type="button" 
+            onClick={atualizarContato}    
         >
-          Salvar
+          Atualizar
         </button>
+
+        : 
+
+        <button 
+          type="button" 
+          onClick={gravar}
+
+
+         >
+         Salvar
+        </button>
+
+
+
+      }
       </form>
 
       <div className={styles.contactBox}>
@@ -160,8 +220,8 @@ const Home: NextPage = () => {
                    <div className={styles.BoxTitle}>
                     <p className={styles.titleName}>{contato.nome}</p>
                     <div className={styles.extras}>
-                      <a>Editar</a>
-                      <a onClick={deletar(contato.chave)}>Excluir</a>
+                      <a onClick={()=> editarDados(contato)}>Editar</a>
+                      <a href='#' onClick={()=> deletar(contato.chave)}>Excluir</a>
 
                     </div>
                    </div>
@@ -180,8 +240,8 @@ const Home: NextPage = () => {
                      <div className={styles.BoxTitle}>
                       <p className={styles.titleName}>{contato.nome}</p>
                       <div className={styles.extras}>
-                        <a >Editar</a>
-                        <a onClick={deletar(contato.chave)}>Excluir</a>
+                        <a onClick={() => editarDados(contato)} >Editar</a>
+                        <a href='#' onClick={() => deletar(contato.chave)}>Excluir</a>
   
                       </div>
                      </div>
