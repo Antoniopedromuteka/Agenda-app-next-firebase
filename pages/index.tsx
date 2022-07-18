@@ -5,9 +5,11 @@ import styles from '../styles/Home.module.scss'
 import { database } from '../services/firebase';
 import { FormEvent, useEffect, useState } from 'react';
 import { type } from 'os';
+ 
 
 
 type contatos ={
+  chave:string,
   nome: string;
   email: string;
   telefone: string;
@@ -24,7 +26,9 @@ const Home: NextPage = () => {
 
 
   const [contato, setContato] = useState<contatos[]>();
-  
+  const [busca, setBusca] = useState<contatos[]>();
+
+  const [estabuscando, setEstabuscando] = useState(false);
 
 
   function gravar(event: FormEvent){
@@ -48,6 +52,35 @@ const Home: NextPage = () => {
     setObservacoes('');
   }
 
+  function deletar(ref : string): void{
+     database.ref(`contatos/${ref}`).remove();
+  }
+
+  function buscar(event: FormEvent){
+
+    const palavra = event.target.value;
+
+    if(palavra.length > 0){
+      setEstabuscando(true)
+  
+   
+
+    const dados = new Array;
+
+    contato?.map(contato =>{
+      const regra = new RegExp(event.target.value, "gi");
+
+     if(regra.test(contato.nome)){
+        dados.push(contato)
+     }
+    })
+
+    setBusca(dados);
+
+  }else{
+    setEstabuscando(false);
+  }
+  }
   useEffect(() =>{
 
     const refContatos = database.ref('contatos');
@@ -116,15 +149,19 @@ const Home: NextPage = () => {
       </form>
 
       <div className={styles.contactBox}>
-        <input type="text" placeholder='Buscar' />
+        <input type="text" placeholder='Buscar' onChange={buscar} />
      
-              {contato?.map((contato) =>(
-                  <div className={styles.CardBox}>
+
+            
+              {estabuscando ? busca?.map((contato) =>{
+
+                return(
+                  <div key={contato.chave} className={styles.CardBox}>
                    <div className={styles.BoxTitle}>
                     <p className={styles.titleName}>{contato.nome}</p>
                     <div className={styles.extras}>
-                      <a href="#">Editar</a>
-                      <a href="#">Excluir</a>
+                      <a>Editar</a>
+                      <a onClick={deletar(contato.chave)}>Excluir</a>
 
                     </div>
                    </div>
@@ -136,7 +173,28 @@ const Home: NextPage = () => {
                     </div>
 
                   </div>
-               ))}
+                )}) : contato?.map((contato) =>{
+
+                  return(
+                    <div key={contato.chave} className={styles.CardBox}>
+                     <div className={styles.BoxTitle}>
+                      <p className={styles.titleName}>{contato.nome}</p>
+                      <div className={styles.extras}>
+                        <a >Editar</a>
+                        <a onClick={deletar(contato.chave)}>Excluir</a>
+  
+                      </div>
+                     </div>
+  
+                      <div className={styles.datas}>
+                      <p>{contato.email}</p>
+                      <p>{contato.telefone}</p>
+                      <p>{contato.observacoes}</p>
+                      </div>
+  
+                    </div>
+                  )}
+                )}                          
       </div>
     </main>
     </>
