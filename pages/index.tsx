@@ -3,22 +3,65 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.scss'
 import { database } from '../services/firebase';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 
 const Home: NextPage = () => {
 
-  
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [telefone, setTelefone] = useState('');
+  const [observacoes, setObservacoes] = useState('');
+
+
+  function gravar(event: FormEvent){
+
+    event.preventDefault();
+    const ref = database.ref('contatos');
+
+    const dados = {
+      nome,
+      email,
+      telefone,
+      observacoes
+    }
+
+    ref.push(dados);
+  }
 
 
   return (
     <>
     <main className={styles.container}>
-      <form action="">
-        <input type="text" name="" id="" placeholder='Nome' />
-        <input type="email" name="" id="" placeholder='Email' />
-        <input type="tel" name="" id="" placeholder='Telefone' />
-        <textarea name="" id="" placeholder="Observacao"></textarea>
-        <button type="submit">Salvar</button>
+      <form onSubmit={gravar}>
+        <input
+           type="text" 
+           placeholder='Nome'
+           onChange={event => setNome(event.target.value)}
+        />
+
+        <input 
+            type="email"  
+            placeholder='Email' 
+            onChange={event => setEmail(event.target.value)}
+        />
+
+        <input 
+            type="tel" 
+            placeholder='Telefone'
+            onChange={event => setTelefone(event.target.value)} 
+        />
+        <textarea 
+            placeholder="Observacao"
+            onChange={event => setObservacoes(event.target.value)}
+            >
+              
+        </textarea>
+
+        <button 
+            type="submit"
+        >
+          Salvar
+        </button>
       </form>
 
       <div className={styles.contactBox}>
