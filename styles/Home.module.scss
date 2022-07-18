@@ -1,1 +1,113 @@
  
+ .container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+
+
+    form{
+        width: 500px;
+        margin-right: 1rem;
+        text-align: center;
+
+
+        input, textarea{
+            width: 100%;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border: 1px solid rgba(0, 0, 0, 0.137);
+            border-radius: 0.3rem;
+        }
+
+        textarea{
+            resize: none;
+            outline: none;
+        }
+
+        button{
+            padding: 0.8rem;
+            width: 40%;
+            background: rgb(195, 255, 56);
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+
+            transition: filter 0.2s;
+
+            &:hover{
+                filter: brightness(0.8);
+            }
+        }
+    }
+ }
+
+ .contactBox{
+    width: 500px;
+    padding: 1rem;
+    background: rgb(237,255,194);
+
+    height: 500px;
+    text-align: center;
+    border-radius: 0.8rem;
+
+    margin-left: 5rem;
+    overflow: auto;
+
+    input{
+         width: 100%;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border: 1px solid rgba(0, 0, 0, 0.137);
+            border-radius: 0.3rem;
+    }
+ }
+
+
+ .CardBox{
+    background: rgb(229,240,182);
+    border-radius: 0.5rem;
+    text-align: left;
+    max-height: 200px;
+    box-sizing: content-box;
+
+
+    .titleName{
+        font-size: 1.5rem;
+        text-align: left;
+        padding: 0.1rem 1rem;
+        font-weight: bold;
+        margin: 0.5rem;
+    }
+
+    .BoxTitle{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+
+        a{
+            color: red;
+            cursor: pointer;
+
+            margin-left: 0.5rem;
+
+
+            &:hover{
+
+                font-weight: bold ;
+            }
+        }
+    }
+
+    .extras{
+        margin-right: 1rem;
+    }
+    .datas{
+
+        padding: 0.5rem 1.5rem;
+        p{
+            margin: 0;
+        }
+    }
+ }

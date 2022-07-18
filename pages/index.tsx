@@ -6,7 +6,7 @@ import styles from '../styles/Home.module.scss'
 const Home: NextPage = () => {
   return (
     <>
-    <main className={styles.main}>
+    <main className={styles.container}>
       <form action="">
         <input type="text" name="" id="" placeholder='Nome' />
         <input type="email" name="" id="" placeholder='Email' />
@@ -15,8 +15,25 @@ const Home: NextPage = () => {
         <button type="submit">Salvar</button>
       </form>
 
-      <div>
+      <div className={styles.contactBox}>
         <input type="text" placeholder='Buscar' />
+        <div className={styles.CardBox}>
+          <div className={styles.BoxTitle}>
+          <p className={styles.titleName}>Carla Gomes Farias</p>
+          <div className={styles.extras}>
+            <a href="#">Editar</a>
+            <a href="#">Excluir</a>
+
+          </div>
+          </div>
+
+          <div className={styles.datas}>
+          <p>Carla@gmail.com</p>
+          <p>+244 923641906</p>
+          <p>Amiga da Escola de Natação</p>
+          </div>
+
+        </div>
       </div>
     </main>
     </>
