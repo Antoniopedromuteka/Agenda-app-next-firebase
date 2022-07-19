@@ -1,16 +1,26 @@
  
  .container{
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    width: 100%;
 
 
     form{
-        width: 500px;
+        width: 35rem;
         margin-right: 1rem;
         text-align: center;
 
+        gap: 1;
+
+        flex: 0.3;
+
+        min-width: 300px;
+
+        margin-top: 2rem;
+        margin-bottom: 2rem;
 
         input, textarea{
             width: 100%;
@@ -28,8 +38,9 @@
         button{
             padding: 0.8rem;
             width: 40%;
-            background: rgb(195, 255, 56);
+            background: rgb(18, 54, 74);
             border: none;
+            color: #fff;
             border-radius: 0.5rem;
             cursor: pointer;
 
@@ -43,10 +54,18 @@
  }
 
  .contactBox{
-    width: 500px;
+    width: 35rem;
     padding: 1rem;
-    background: rgb(237,255,194);
+    background: rgb(18, 54, 74);
 
+    gap: 1;
+
+    flex: 0.4;
+
+    min-width: 400px;
+
+   
+    
     height: 500px;
     text-align: center;
     border-radius: 0.8rem;
@@ -65,11 +84,13 @@
 
 
  .CardBox{
-    background: rgb(229,240,182);
+    background:  rgb(160, 174, 195);
     border-radius: 0.5rem;
     text-align: left;
     max-height: 200px;
     box-sizing: content-box;
+
+
 
 
     & + div {
@@ -80,7 +101,7 @@
         font-size: 1.5rem;
         text-align: left;
         padding: 0.1rem 1rem;
-        font-weight: bold;
+        font-weight: 600;
         margin: 0.5rem;
     }
 
@@ -89,9 +110,10 @@
         justify-content: space-between;
         align-items: center;
 
+        color: #001;
 
         a{
-            color: red;
+            color: rgb(44, 66, 96);
             cursor: pointer;
 
             margin-left: 0.5rem;
@@ -102,16 +124,27 @@
                 font-weight: bold ;
             }
         }
+
     }
+
+
 
     .extras{
         margin-right: 1rem;
     }
     .datas{
 
+        font-weight: 400;
+
         padding: 0.5rem 1.5rem;
         p{
             margin: 0;
         }
     }
+
+ 
  }
+
+
+
+ 
